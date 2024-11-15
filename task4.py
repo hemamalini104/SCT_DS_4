@@ -4,21 +4,18 @@ import seaborn as sns
 import geopandas as gpd
 from shapely.geometry import Point
 
-# Load the dataset
 file_path = 'cleaned_weather.csv'  # Replace with the path to your CSV file
 try:
     accident_data = pd.read_csv("/content/cleaned_weather.csv")
 except FileNotFoundError:
     print(f"Error: The file was not found. Please check the file path.")
     exit()
-
-# Display basic information about the dataset
+    
 print("Dataset Info:")
 print(accident_data.info())
 print("\nSample Data:")
 print(accident_data.head())
 
-# Clean and format data
 accident_data.columns = accident_data.columns.str.strip()  # Remove whitespace from headers
 
 # Convert 'Start_Time' to datetime and extract hour
@@ -28,7 +25,6 @@ if 'Start_Time' in accident_data.columns:
 else:
     print("Warning: Column 'Start_Time' not found in dataset. Check column names.")
 
-# Check and clean specific columns
 if 'Weather_Condition' in accident_data.columns:
     accident_data['Weather_Condition'] = accident_data['Weather_Condition'].fillna('Unknown')
 else:
@@ -37,8 +33,7 @@ else:
 if 'Road_Condition' not in accident_data.columns:
     print("Note: Column 'Road_Condition' not found in dataset.")
 
-# Plot accident distribution by hour of the day
-if 'Hour' in accident_data.columns:
+if 'Hour' in accident_data.columns:   # Plot accident distribution by hour of the day
     plt.figure(figsize=(10, 6))
     sns.countplot(data=accident_data, x='Hour', palette='viridis')
     plt.title('Accident Frequency by Hour of Day')
